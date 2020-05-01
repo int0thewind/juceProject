@@ -7,47 +7,53 @@
 */
 
 #include <JuceHeader.h>
+
+#include <memory>
 #include "SynthUsingMidiInputTutorial_01.h"
 
-class Application    : public JUCEApplication
+class Application : public JUCEApplication
 {
 public:
     //==============================================================================
-    Application() {}
+    Application() = default;
 
     const String getApplicationName() override       { return "SynthUsingMidiInputTutorial"; }
     const String getApplicationVersion() override    { return "1.0.0"; }
 
-    void initialise (const String&) override         { mainWindow.reset (new MainWindow ("SynthUsingMidiInputTutorial", new MainContentComponent(), *this)); }
-    void shutdown() override                         { mainWindow = nullptr; }
+    void initialise (const String&) override {
+        this->mainWindow = std::make_unique<MainWindow>
+                ("SynthUsingMidiInputTutorial", new MainContentComponent(), *this);
+    }
+    void shutdown() override {
+        mainWindow = nullptr;
+    }
 
 private:
-    class MainWindow    : public DocumentWindow
+    class MainWindow : public DocumentWindow
     {
     public:
         MainWindow (const String& name, Component* c, JUCEApplication& a)
             : DocumentWindow (name, Desktop::getInstance().getDefaultLookAndFeel()
-                                                          .findColour (ResizableWindow::backgroundColourId),
-                              DocumentWindow::allButtons),
-              app (a)
+                .findColour (ResizableWindow::backgroundColourId),
+                DocumentWindow::allButtons),
+                app (a)
         {
-            setUsingNativeTitleBar (true);
-            setContentOwned (c, true);
+            this->setUsingNativeTitleBar (true);
+            this->setContentOwned (c, true);
 
            #if JUCE_ANDROID || JUCE_IOS
             setFullScreen (true);
            #else
-            setResizable (true, false);
-            setResizeLimits (300, 250, 10000, 10000);
-            centreWithSize (getWidth(), getHeight());
+            this->setResizable (true, false);
+            this->setResizeLimits (300, 250, 10000, 10000);
+            this->centreWithSize (this->getWidth(), this->getHeight());
            #endif
 
-            setVisible (true);
+            this->setVisible (true);
         }
 
-        void closeButtonPressed() override
-        {
-            app.systemRequestedQuit();
+        void closeButtonPressed() override {
+            this->app.systemRequestedQuit();
         }
 
     private:
