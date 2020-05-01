@@ -76,6 +76,8 @@ struct SineWaveVoice   : public SynthesiserVoice
         this->level = velocity * 0.15;
         this->tailOff = 0.0;
 
+        this->attackOn = 0.0;
+
         double cyclesPerSecond = MidiMessage::getMidiNoteInHertz (midiNoteNumber);
         double cyclesPerSample = cyclesPerSecond / this->getSampleRate();
 
@@ -105,7 +107,7 @@ struct SineWaveVoice   : public SynthesiserVoice
                  * When the key has been released the tailOff value will be greater than zero.
                  */
                 while (--numSamples >= 0) {
-                    auto currentSample = (float) (std::sin (this->currentAngle) * this->level * this->tailOff);
+                    auto currentSample = (float) (std::sin (this->currentAngle) * this->level * this->attackOn * this->tailOff);
 
                     for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
                         outputBuffer.addSample(i, startSample, currentSample);
@@ -135,7 +137,10 @@ struct SineWaveVoice   : public SynthesiserVoice
                  * see [7]
                  */
                 while (--numSamples >= 0) {
-                    auto currentSample = (float) (std::sin (this->currentAngle) * this->level);
+                    if (this->attackOn < 1.0) {
+                        this->attackOn += 0.00001;
+                    }
+                    auto currentSample = (float) (std::sin (this->currentAngle) * this->level * this->attackOn);
 
                     for (int i = outputBuffer.getNumChannels(); --i >= 0;) {
                         outputBuffer.addSample(i, startSample, currentSample);
@@ -152,6 +157,8 @@ private:
     // These variables stores what values should be used for the current time to make the sine waves
     // tailOff is used to give each voice a slightly softer release to its amplitude envelope
     double currentAngle = 0.0, angleDelta = 0.0, level = 0.0, tailOff = 0.0;
+
+    double attackOn = 0.0;
 };
 
 //==============================================================================
