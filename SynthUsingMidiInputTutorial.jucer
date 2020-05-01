@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT name="MPEIntroductionTutorial" companyName="JUCE" version="1.0.0"
-              userNotes="Synthesiser using MPE specifications." companyWebsite="http://juce.com"
-              defines="" projectType="guiapp" id="hfDOJS" jucerVersion="5.4.7">
-  <MAINGROUP id="UADQZY" name="MPEIntroductionTutorial">
-    <GROUP id="{90AF3AB3-C1AD-A7A9-8039-26F1CB50E6AD}" name="Source">
-      <FILE id="TZxNBe" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
-      <FILE id="cnUEyp" name="MPEIntroductionTutorial.h" compile="0" resource="0"
-            file="Source/MPEIntroductionTutorial.h"/>
+<JUCERPROJECT name="SynthUsingMidiInputTutorial" companyName="JUCE" version="1.0.0"
+              userNotes="Synthesiser with midi input." companyWebsite="http://juce.com"
+              defines="" projectType="guiapp" id="kch25S" jucerVersion="5.4.7">
+  <MAINGROUP id="m1Du4O" name="SynthUsingMidiInputTutorial">
+    <GROUP id="{4CFA32A6-2DCA-9B7B-765F-6BBDAFA4074B}" name="Source">
+      <FILE id="SpxFh9" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="uq74Vm" name="SynthUsingMidiInputTutorial_01.h" compile="0"
+            resource="0" file="Source/SynthUsingMidiInputTutorial_01.h"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>
@@ -26,8 +26,8 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="MPEIntroductionTutorial"/>
-        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="MPEIntroductionTutorial"/>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SynthUsingMidiInputTutorial"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="SynthUsingMidiInputTutorial"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path=""/>

@@ -1,3 +1,3 @@
-# Tutorial: Build a multi-polyphonic synthesiser
+# Tutorial: Build a MIDI synthesiser
 
-A follow up of the JUCE official tutorial: [Build a multi-polyphonic synthesiser](https://docs.juce.com/master/tutorial_mpe_introduction.html)
+A follow up of the JUCE official tutorial: [Build a MIDI synthesiser](https://docs.juce.com/master/tutorial_synth_using_midi_input.html).
