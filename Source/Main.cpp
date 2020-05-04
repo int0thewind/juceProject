@@ -7,19 +7,25 @@
 */
 
 #include <JuceHeader.h>
+
+#include <memory>
 #include "MPEIntroductionTutorial.h"
 
 class Application    : public JUCEApplication
 {
 public:
     //==============================================================================
-    Application() {}
+    Application() = default;
 
     const String getApplicationName() override       { return "MPEIntroductionTutorial"; }
     const String getApplicationVersion() override    { return "1.0.0"; }
 
-    void initialise (const String&) override         { mainWindow.reset (new MainWindow ("MPEIntroductionTutorial", new MainComponent(), *this)); }
-    void shutdown() override                         { mainWindow = nullptr; }
+    void initialise (const String&) override {
+        this->mainWindow = std::make_unique<MainWindow> ("MPEIntroductionTutorial", new MainComponent(), *this);
+    }
+    void shutdown() override {
+        this->mainWindow = nullptr;
+    }
 
 private:
     class MainWindow    : public DocumentWindow
@@ -27,27 +33,27 @@ private:
     public:
         MainWindow (const String& name, Component* c, JUCEApplication& a)
             : DocumentWindow (name, Desktop::getInstance().getDefaultLookAndFeel()
-                                                          .findColour (ResizableWindow::backgroundColourId),
-                              DocumentWindow::allButtons),
-              app (a)
+                .findColour (ResizableWindow::backgroundColourId),
+                DocumentWindow::allButtons),
+                app (a)
         {
-            setUsingNativeTitleBar (true);
-            setContentOwned (c, true);
+            this->setUsingNativeTitleBar (true);
+            this->setContentOwned (c, true);
 
            #if JUCE_ANDROID || JUCE_IOS
             setFullScreen (true);
            #else
-            setResizable (true, false);
-            setResizeLimits (300, 250, 10000, 10000);
-            centreWithSize (getWidth(), getHeight());
+            this->setResizable (true, false);
+            this->setResizeLimits (300, 250, 10000, 10000);
+            this->centreWithSize (getWidth(), getHeight());
            #endif
 
-            setVisible (true);
+            this->setVisible (true);
         }
 
         void closeButtonPressed() override
         {
-            app.systemRequestedQuit();
+            this->app.systemRequestedQuit();
         }
 
     private:

@@ -51,50 +51,47 @@
 class NoteComponent : public Component
 {
 public:
-    NoteComponent (const MPENote& n)
-        : note (n), colour (Colours::white)
-    {}
+    explicit NoteComponent (const MPENote& n) : note (n), colour (Colours::white) {}
 
     //==============================================================================
-    void update (const MPENote& newNote, Point<float> newCentre)
+    void update (const MPENote& newNote, juce::Point<float> newCentre)
     {
-        note = newNote;
-        centre = newCentre;
+        this->note = newNote;
+        this->centre = newCentre;
 
-        setBounds (getSquareAroundCentre (jmax (getNoteOnRadius(), getNoteOffRadius(), getPressureRadius()))
+        this->setBounds (getSquareAroundCentre (jmax (getNoteOnRadius(), getNoteOffRadius(), getPressureRadius()))
                      .getUnion (getTextRectangle())
                      .getSmallestIntegerContainer()
                      .expanded (3));
-
-        repaint();
+        this->repaint();
     }
 
     //==============================================================================
     void paint (Graphics& g) override
     {
-        if (note.keyState == MPENote::keyDown || note.keyState == MPENote::keyDownAndSustained)
-            drawPressedNoteCircle (g, colour);
-        else if (note.keyState == MPENote::sustained)
-            drawSustainedNoteCircle (g, colour);
+        if (this->note.keyState == MPENote::keyDown || this->note.keyState == MPENote::keyDownAndSustained)
+            this->drawPressedNoteCircle (g, colour);
+        else if (this->note.keyState == MPENote::sustained)
+            this->drawSustainedNoteCircle (g, colour);
         else
             return;
 
-        drawNoteLabel (g, colour);
+        drawNoteLabel (g, this->colour);
     }
 
     //==============================================================================
     MPENote note;
     Colour colour;
-    Point<float> centre;
+    juce::Point<float> centre;
 
 private:
     //==============================================================================
     void drawPressedNoteCircle (Graphics& g, Colour zoneColour)
     {
         g.setColour (zoneColour.withAlpha (0.3f));
-        g.fillEllipse (translateToLocalBounds (getSquareAroundCentre (getNoteOnRadius())));
+        g.fillEllipse (this->translateToLocalBounds (this->getSquareAroundCentre (getNoteOnRadius())));
         g.setColour (zoneColour);
-        g.drawEllipse (translateToLocalBounds (getSquareAroundCentre (getPressureRadius())), 2.0f);
+        g.drawEllipse (this->translateToLocalBounds (this->getSquareAroundCentre (getPressureRadius())), 2.0f);
     }
 
     //==============================================================================
@@ -250,11 +247,11 @@ private:
     }
 
     //==============================================================================
-    Point<float> getCentrePositionForNote (MPENote note) const
+    juce::Point<float> getCentrePositionForNote (MPENote note) const
     {
         auto n = float (note.initialNote) + float (note.totalPitchbendInSemitones);
-        auto x = getWidth() * n / 128;
-        auto y = getHeight() * (1 - note.timbre.asUnsignedFloat());
+        auto x = this->getWidth() * n / 128;
+        auto y = this->getHeight() * (1 - note.timbre.asUnsignedFloat());
 
         return { x, y };
     }
@@ -272,7 +269,7 @@ class MPEDemoSynthVoice : public MPESynthesiserVoice
 {
 public:
     //==============================================================================
-    MPEDemoSynthVoice() {}
+    MPEDemoSynthVoice() = default;
 
     //==============================================================================
     void noteStarted() override
