@@ -13,11 +13,46 @@ endif (NOT CMAKE_BUILD_TYPE)
 
 if (APPLE)
 
-project ("MPEIntroductionTutorial" C CXX)
+project ("DSPIntroductionTutorial" C CXX)
 
-add_executable (APP
+add_library (VST3 MODULE
+    "../../../../JUCE/modules/juce_audio_plugin_client/VST3/juce_VST3_Wrapper.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.cpp"
+    "../../JuceLibraryCode/include_juce_audio_plugin_client_VST3.cpp"
+    "PkgInfo"
+)
+
+set_source_files_properties ("PkgInfo" PROPERTIES MACOSX_PACKAGE_LOCATION .)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/VST3/juce_VST3_Wrapper.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+
+add_library (AU MODULE
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/juce_AU_Wrapper.mm"
+    "../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_1.mm"
+    "../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_2.mm"
+    "../../../../JUCE/modules/juce_audio_processors/format_types/juce_AU_Shared.h"
+    "../../JuceLibraryCode/include_juce_audio_plugin_client_AU.r"
+    "../../JuceLibraryCode/include_juce_audio_plugin_client_AU_1.mm"
+    "../../JuceLibraryCode/include_juce_audio_plugin_client_AU_2.mm"
+    "PkgInfo"
+)
+
+set_source_files_properties ("PkgInfo" PROPERTIES MACOSX_PACKAGE_LOCATION .)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/juce_AU_Wrapper.mm" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_1.mm" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_AU_2.mm" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_processors/format_types/juce_AU_Shared.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+
+add_executable (STANDALONE_PLUGIN
+    "../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_Standalone.cpp"
+    "../../JuceLibraryCode/include_juce_audio_plugin_client_Standalone.cpp"
+)
+
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_Standalone.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+
+add_library (SHARED_CODE STATIC
     "../../Source/Main.cpp"
-    "../../Source/MPEIntroductionTutorial.h"
+    "../../Source/DSPIntroductionTutorial_01.h"
     "../../../../JUCE/modules/juce_audio_basics/audio_play_head/juce_AudioPlayHead.h"
     "../../../../JUCE/modules/juce_audio_basics/buffers/juce_AudioChannelSet.cpp"
     "../../../../JUCE/modules/juce_audio_basics/buffers/juce_AudioChannelSet.h"
@@ -285,6 +320,79 @@ add_executable (APP
     "../../../../JUCE/modules/juce_audio_formats/juce_audio_formats.cpp"
     "../../../../JUCE/modules/juce_audio_formats/juce_audio_formats.mm"
     "../../../../JUCE/modules/juce_audio_formats/juce_audio_formats.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUBase.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUBase.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUBaseHelper.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUBuffer.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUBuffer.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUCarbonViewBase.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUCarbonViewBase.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUCarbonViewControl.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUCarbonViewControl.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUCarbonViewDispatch.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUDispatch.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUDispatch.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUInputElement.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUInputElement.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUInputFormatConverter.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUMIDIBase.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUMIDIBase.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUOutputBase.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUOutputBase.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUOutputElement.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUOutputElement.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUPlugInDispatch.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUPlugInDispatch.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUScopeElement.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUScopeElement.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUSilentTimeout.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUTimestampGenerator.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUViewLocalizedStringKeys.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAtomic.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAtomicStack.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAudioChannelLayout.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAudioChannelLayout.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAUParameter.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAUParameter.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAutoDisposer.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CADebugMacros.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CADebugPrintf.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAException.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAHostTimeBase.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAMath.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAMutex.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAMutex.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CarbonEventHandler.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CarbonEventHandler.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAReferenceCounted.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAStreamBasicDescription.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAStreamBasicDescription.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAThreadSafeList.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAVectorUnit.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAVectorUnit.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAVectorUnitTypes.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAXException.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/ComponentBase.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/ComponentBase.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/MusicDeviceBase.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/MusicDeviceBase.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/Standalone/juce_StandaloneFilterApp.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/Standalone/juce_StandaloneFilterWindow.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/Unity/juce_UnityPluginInterface.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_CarbonVisibility.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_CheckSettingMacros.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_FakeMouseMoveGenerator.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_IncludeModuleHeaders.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_IncludeSystemHeaders.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_PluginHostType.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_PluginUtilities.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_WindowsHooks.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/VST/juce_VST_Wrapper.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/VST/juce_VST_Wrapper.mm"
+    "../../../../JUCE/modules/juce_audio_plugin_client/VST/juce_VSTCallbackHandler.h"
+    "../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_utils.cpp"
+    "../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST_utils.mm"
+    "../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client.h"
     "../../../../JUCE/modules/juce_audio_processors/format/juce_AudioPluginFormat.cpp"
     "../../../../JUCE/modules/juce_audio_processors/format/juce_AudioPluginFormat.h"
     "../../../../JUCE/modules/juce_audio_processors/format/juce_AudioPluginFormatManager.cpp"
@@ -734,6 +842,62 @@ add_executable (APP
     "../../../../JUCE/modules/juce_data_structures/juce_data_structures.cpp"
     "../../../../JUCE/modules/juce_data_structures/juce_data_structures.mm"
     "../../../../JUCE/modules/juce_data_structures/juce_data_structures.h"
+    "../../../../JUCE/modules/juce_dsp/containers/juce_AudioBlock.h"
+    "../../../../JUCE/modules/juce_dsp/containers/juce_AudioBlock_test.cpp"
+    "../../../../JUCE/modules/juce_dsp/containers/juce_SIMDRegister.h"
+    "../../../../JUCE/modules/juce_dsp/containers/juce_SIMDRegister_Impl.h"
+    "../../../../JUCE/modules/juce_dsp/containers/juce_SIMDRegister_test.cpp"
+    "../../../../JUCE/modules/juce_dsp/filter_design/juce_FilterDesign.cpp"
+    "../../../../JUCE/modules/juce_dsp/filter_design/juce_FilterDesign.h"
+    "../../../../JUCE/modules/juce_dsp/frequency/juce_Convolution.cpp"
+    "../../../../JUCE/modules/juce_dsp/frequency/juce_Convolution.h"
+    "../../../../JUCE/modules/juce_dsp/frequency/juce_FFT.cpp"
+    "../../../../JUCE/modules/juce_dsp/frequency/juce_FFT.h"
+    "../../../../JUCE/modules/juce_dsp/frequency/juce_FFT_test.cpp"
+    "../../../../JUCE/modules/juce_dsp/frequency/juce_Windowing.cpp"
+    "../../../../JUCE/modules/juce_dsp/frequency/juce_Windowing.h"
+    "../../../../JUCE/modules/juce_dsp/maths/juce_FastMathApproximations.h"
+    "../../../../JUCE/modules/juce_dsp/maths/juce_LogRampedValue.h"
+    "../../../../JUCE/modules/juce_dsp/maths/juce_LogRampedValue_test.cpp"
+    "../../../../JUCE/modules/juce_dsp/maths/juce_LookupTable.cpp"
+    "../../../../JUCE/modules/juce_dsp/maths/juce_LookupTable.h"
+    "../../../../JUCE/modules/juce_dsp/maths/juce_Matrix.cpp"
+    "../../../../JUCE/modules/juce_dsp/maths/juce_Matrix.h"
+    "../../../../JUCE/modules/juce_dsp/maths/juce_Matrix_test.cpp"
+    "../../../../JUCE/modules/juce_dsp/maths/juce_Phase.h"
+    "../../../../JUCE/modules/juce_dsp/maths/juce_Polynomial.h"
+    "../../../../JUCE/modules/juce_dsp/maths/juce_SpecialFunctions.cpp"
+    "../../../../JUCE/modules/juce_dsp/maths/juce_SpecialFunctions.h"
+    "../../../../JUCE/modules/juce_dsp/native/juce_avx_SIMDNativeOps.cpp"
+    "../../../../JUCE/modules/juce_dsp/native/juce_avx_SIMDNativeOps.h"
+    "../../../../JUCE/modules/juce_dsp/native/juce_fallback_SIMDNativeOps.h"
+    "../../../../JUCE/modules/juce_dsp/native/juce_neon_SIMDNativeOps.cpp"
+    "../../../../JUCE/modules/juce_dsp/native/juce_neon_SIMDNativeOps.h"
+    "../../../../JUCE/modules/juce_dsp/native/juce_sse_SIMDNativeOps.cpp"
+    "../../../../JUCE/modules/juce_dsp/native/juce_sse_SIMDNativeOps.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_Bias.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_FIRFilter.cpp"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_FIRFilter.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_FIRFilter_test.cpp"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_Gain.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_IIRFilter.cpp"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_IIRFilter.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_IIRFilter_Impl.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_LadderFilter.cpp"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_LadderFilter.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_Oscillator.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_Oversampling.cpp"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_Oversampling.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_ProcessContext.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_ProcessorChain.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_ProcessorDuplicator.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_ProcessorWrapper.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_Reverb.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_StateVariableFilter.h"
+    "../../../../JUCE/modules/juce_dsp/processors/juce_WaveShaper.h"
+    "../../../../JUCE/modules/juce_dsp/juce_dsp.cpp"
+    "../../../../JUCE/modules/juce_dsp/juce_dsp.mm"
+    "../../../../JUCE/modules/juce_dsp/juce_dsp.h"
     "../../../../JUCE/modules/juce_events/broadcasters/juce_ActionBroadcaster.cpp"
     "../../../../JUCE/modules/juce_events/broadcasters/juce_ActionBroadcaster.h"
     "../../../../JUCE/modules/juce_events/broadcasters/juce_ActionListener.h"
@@ -1294,10 +1458,13 @@ add_executable (APP
     "../../JuceLibraryCode/include_juce_audio_basics.mm"
     "../../JuceLibraryCode/include_juce_audio_devices.mm"
     "../../JuceLibraryCode/include_juce_audio_formats.mm"
+    "../../JuceLibraryCode/include_juce_audio_plugin_client_utils.cpp"
+    "../../JuceLibraryCode/include_juce_audio_plugin_client_VST_utils.mm"
     "../../JuceLibraryCode/include_juce_audio_processors.mm"
     "../../JuceLibraryCode/include_juce_audio_utils.mm"
     "../../JuceLibraryCode/include_juce_core.mm"
     "../../JuceLibraryCode/include_juce_data_structures.mm"
+    "../../JuceLibraryCode/include_juce_dsp.mm"
     "../../JuceLibraryCode/include_juce_events.mm"
     "../../JuceLibraryCode/include_juce_graphics.mm"
     "../../JuceLibraryCode/include_juce_gui_basics.mm"
@@ -1305,7 +1472,7 @@ add_executable (APP
     "../../JuceLibraryCode/JuceHeader.h"
 )
 
-set_source_files_properties ("../../Source/MPEIntroductionTutorial.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/DSPIntroductionTutorial_01.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_audio_basics/audio_play_head/juce_AudioPlayHead.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_audio_basics/buffers/juce_AudioChannelSet.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_audio_basics/buffers/juce_AudioChannelSet.h" PROPERTIES HEADER_FILE_ONLY TRUE)
@@ -1573,6 +1740,79 @@ set_source_files_properties ("../../../../JUCE/modules/juce_audio_formats/sample
 set_source_files_properties ("../../../../JUCE/modules/juce_audio_formats/juce_audio_formats.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_audio_formats/juce_audio_formats.mm" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_audio_formats/juce_audio_formats.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUBase.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUBase.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUBaseHelper.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUBuffer.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUBuffer.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUCarbonViewBase.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUCarbonViewBase.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUCarbonViewControl.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUCarbonViewControl.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUCarbonViewDispatch.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUDispatch.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUDispatch.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUInputElement.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUInputElement.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUInputFormatConverter.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUMIDIBase.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUMIDIBase.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUOutputBase.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUOutputBase.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUOutputElement.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUOutputElement.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUPlugInDispatch.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUPlugInDispatch.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUScopeElement.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUScopeElement.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUSilentTimeout.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUTimestampGenerator.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/AUViewLocalizedStringKeys.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAtomic.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAtomicStack.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAudioChannelLayout.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAudioChannelLayout.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAUParameter.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAUParameter.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAAutoDisposer.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CADebugMacros.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CADebugPrintf.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAException.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAHostTimeBase.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAMath.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAMutex.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAMutex.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CarbonEventHandler.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CarbonEventHandler.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAReferenceCounted.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAStreamBasicDescription.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAStreamBasicDescription.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAThreadSafeList.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAVectorUnit.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAVectorUnit.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAVectorUnitTypes.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/CAXException.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/ComponentBase.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/ComponentBase.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/MusicDeviceBase.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/AU/CoreAudioUtilityClasses/MusicDeviceBase.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/Standalone/juce_StandaloneFilterApp.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/Standalone/juce_StandaloneFilterWindow.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/Unity/juce_UnityPluginInterface.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_CarbonVisibility.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_CheckSettingMacros.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_FakeMouseMoveGenerator.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_IncludeModuleHeaders.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_IncludeSystemHeaders.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_PluginHostType.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_PluginUtilities.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/utility/juce_WindowsHooks.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/VST/juce_VST_Wrapper.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/VST/juce_VST_Wrapper.mm" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/VST/juce_VSTCallbackHandler.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_utils.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST_utils.mm" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_audio_plugin_client/juce_audio_plugin_client.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_audio_processors/format/juce_AudioPluginFormat.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_audio_processors/format/juce_AudioPluginFormat.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_audio_processors/format/juce_AudioPluginFormatManager.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
@@ -2022,6 +2262,62 @@ set_source_files_properties ("../../../../JUCE/modules/juce_data_structures/valu
 set_source_files_properties ("../../../../JUCE/modules/juce_data_structures/juce_data_structures.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_data_structures/juce_data_structures.mm" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_data_structures/juce_data_structures.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/containers/juce_AudioBlock.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/containers/juce_AudioBlock_test.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/containers/juce_SIMDRegister.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/containers/juce_SIMDRegister_Impl.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/containers/juce_SIMDRegister_test.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/filter_design/juce_FilterDesign.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/filter_design/juce_FilterDesign.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/frequency/juce_Convolution.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/frequency/juce_Convolution.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/frequency/juce_FFT.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/frequency/juce_FFT.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/frequency/juce_FFT_test.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/frequency/juce_Windowing.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/frequency/juce_Windowing.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/maths/juce_FastMathApproximations.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/maths/juce_LogRampedValue.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/maths/juce_LogRampedValue_test.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/maths/juce_LookupTable.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/maths/juce_LookupTable.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/maths/juce_Matrix.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/maths/juce_Matrix.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/maths/juce_Matrix_test.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/maths/juce_Phase.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/maths/juce_Polynomial.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/maths/juce_SpecialFunctions.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/maths/juce_SpecialFunctions.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/native/juce_avx_SIMDNativeOps.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/native/juce_avx_SIMDNativeOps.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/native/juce_fallback_SIMDNativeOps.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/native/juce_neon_SIMDNativeOps.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/native/juce_neon_SIMDNativeOps.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/native/juce_sse_SIMDNativeOps.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/native/juce_sse_SIMDNativeOps.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_Bias.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_FIRFilter.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_FIRFilter.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_FIRFilter_test.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_Gain.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_IIRFilter.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_IIRFilter.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_IIRFilter_Impl.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_LadderFilter.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_LadderFilter.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_Oscillator.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_Oversampling.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_Oversampling.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_ProcessContext.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_ProcessorChain.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_ProcessorDuplicator.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_ProcessorWrapper.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_Reverb.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_StateVariableFilter.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/processors/juce_WaveShaper.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/juce_dsp.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/juce_dsp.mm" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../../../JUCE/modules/juce_dsp/juce_dsp.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_events/broadcasters/juce_ActionBroadcaster.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_events/broadcasters/juce_ActionBroadcaster.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../../JUCE/modules/juce_events/broadcasters/juce_ActionListener.h" PROPERTIES HEADER_FILE_ONLY TRUE)
@@ -2581,6 +2877,13 @@ set_source_files_properties ("../../../../JUCE/modules/juce_gui_extra/juce_gui_e
 set_source_files_properties ("../../JuceLibraryCode/AppConfig.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../JuceLibraryCode/JuceHeader.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 
+find_program (RC_COMPILER Rez NO_DEFAULT_PATHS PATHS "/Applications/Xcode.app/Contents/Developer/usr/bin")
+if (NOT RC_COMPILER)
+    message (WARNING "failed to find Rez; older resource-based AU plug-ins may not work correctly")
+endif (NOT RC_COMPILER)
+
+set_target_properties (SHARED_CODE PROPERTIES SUFFIX ".a")
+
 #------------------------------------------------------------------------------
 # Config: Debug
 #------------------------------------------------------------------------------
@@ -2589,12 +2892,199 @@ if (CMAKE_BUILD_TYPE STREQUAL Debug)
 
 execute_process (COMMAND uname -m OUTPUT_VARIABLE JUCE_ARCH_LABEL OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-target_include_directories (APP PRIVATE
+target_include_directories (VST3 PRIVATE
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_processors/format_types/VST3_SDK"
     "../../JuceLibraryCode"
     "/Users/int0thewind/Development/JUCE/modules"
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_plugin_client"
 )
 
-target_compile_definitions (APP PRIVATE
+target_compile_definitions (VST3 PRIVATE
+    "_DEBUG=1"
+    "DEBUG=1"
+    "JUCER_XCODE_MAC_F6D2F4CF=1"
+    "JUCE_APP_VERSION=1.0.0"
+    "JUCE_APP_VERSION_HEX=0x10000"
+    "JucePlugin_Build_VST=0"
+    "JucePlugin_Build_VST3=1"
+    "JucePlugin_Build_AU=0"
+    "JucePlugin_Build_AUv3=0"
+    "JucePlugin_Build_RTAS=0"
+    "JucePlugin_Build_AAX=0"
+    "JucePlugin_Build_Standalone=0"
+    "JucePlugin_Build_Unity=0"
+)
+
+target_compile_options (VST3 PRIVATE
+    -mmacosx-version-min=10.11
+    -O0
+    -stdlib=libc++
+)
+
+set_target_properties (VST3 PROPERTIES
+    OUTPUT_NAME "DSPIntroductionTutorial"
+    CXX_STANDARD 14
+    CXX_EXTENSIONS OFF
+    XCODE_ATTRIBUTE_CLANG_LINK_OBJC_RUNTIME NO
+    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ""
+    XCODE_ATTRIBUTE_COMBINE_HIDPI_IMAGES YES
+    XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "$(PROJECT_DIR)/build/$(CONFIGURATION)"
+    XCODE_ATTRIBUTE_COPY_PHASE_STRIP NO
+    XCODE_ATTRIBUTE_DEPLOYMENT_LOCATION YES
+    XCODE_ATTRIBUTE_DSTROOT /
+    XCODE_ATTRIBUTE_GCC_DYNAMIC_NO_PIC NO
+    XCODE_ATTRIBUTE_GCC_VERSION com.apple.compilers.llvm.clang.1_0
+    XCODE_ATTRIBUTE_GENERATE_PKGINFO_FILE YES
+    XCODE_ATTRIBUTE_INFOPLIST_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Debug-Info-VST3.plist"
+    XCODE_ATTRIBUTE_INFOPLIST_PREPROCESS NO
+    XCODE_ATTRIBUTE_INSTALL_PATH "$(HOME)/Library/Audio/Plug-Ins/VST3/"
+    XCODE_ATTRIBUTE_LIBRARY_STYLE Bundle
+    XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.JUCE.DSPIntroductionTutorial
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
+    XCODE_ATTRIBUTE_USE_HEADERMAP NO
+    XCODE_ATTRIBUTE_WRAPPER_EXTENSION vst3
+    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Debug-Info-VST3.plist"
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
+    BUNDLE TRUE
+    BUNDLE_EXTENSION vst3
+    XCODE_ATTRIBUTE_MACH_O_TYPE "mh_bundle"
+)
+
+target_link_libraries (VST3 PRIVATE
+    SHARED_CODE
+    "-framework Accelerate"
+    "-framework AudioToolbox"
+    "-framework Carbon"
+    "-framework Cocoa"
+    "-framework CoreAudio"
+    "-framework CoreAudioKit"
+    "-framework CoreMIDI"
+    "-framework DiscRecording"
+    "-framework IOKit"
+    "-framework QuartzCore"
+    "-framework WebKit"
+)
+
+add_custom_command (TARGET VST3 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E remove_directory "$ENV{HOME}/Library/Audio/Plug-Ins/VST3/DSPIntroductionTutorial.vst3"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/DSPIntroductionTutorial.vst3" "$ENV{HOME}/Library/Audio/Plug-Ins/VST3/DSPIntroductionTutorial.vst3"
+    COMMENT "Copying \"DSPIntroductionTutorial.vst3\" to \"$ENV{HOME}/Library/Audio/Plug-Ins/VST3/\""
+)
+
+target_include_directories (AU PRIVATE
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_processors/format_types/VST3_SDK"
+    "../../JuceLibraryCode"
+    "/Users/int0thewind/Development/JUCE/modules"
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_plugin_client"
+)
+
+target_compile_definitions (AU PRIVATE
+    "_DEBUG=1"
+    "DEBUG=1"
+    "JUCER_XCODE_MAC_F6D2F4CF=1"
+    "JUCE_APP_VERSION=1.0.0"
+    "JUCE_APP_VERSION_HEX=0x10000"
+    "JucePlugin_Build_VST=0"
+    "JucePlugin_Build_VST3=0"
+    "JucePlugin_Build_AU=1"
+    "JucePlugin_Build_AUv3=0"
+    "JucePlugin_Build_RTAS=0"
+    "JucePlugin_Build_AAX=0"
+    "JucePlugin_Build_Standalone=0"
+    "JucePlugin_Build_Unity=0"
+)
+
+target_compile_options (AU PRIVATE
+    -mmacosx-version-min=10.11
+    -O0
+    -stdlib=libc++
+)
+
+if (RC_COMPILER)
+    set (AU_REZ_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../JuceLibraryCode/include_juce_audio_plugin_client_AU.r"
+    )
+    set (AU_REZ_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/DSPIntroductionTutorial.rsrc")
+    target_sources (AU PRIVATE
+        ${AU_REZ_SOURCES}
+        ${AU_REZ_OUTPUT}
+    )
+    execute_process (COMMAND
+        ${RC_COMPILER}
+        -d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I "$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase" -I "$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AudioUnit.framework/Headers"
+        -isysroot "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        -I "/Users/int0thewind/Development/JUCE/modules/juce_audio_processors/format_types/VST3_SDK"
+        -I "${PROJECT_SOURCE_DIR}/../../JuceLibraryCode"
+        -I "/Users/int0thewind/Development/JUCE/modules"
+        -I "/Users/int0thewind/Development/JUCE/modules/juce_audio_plugin_client"
+        ${AU_REZ_SOURCES}
+        -o ${AU_REZ_OUTPUT}
+    )
+    set_source_files_properties (${AU_REZ_OUTPUT} PROPERTIES
+        GENERATED TRUE
+        MACOSX_PACKAGE_LOCATION Resources
+    )
+endif (RC_COMPILER)
+
+set_target_properties (AU PROPERTIES
+    OUTPUT_NAME "DSPIntroductionTutorial"
+    CXX_STANDARD 14
+    CXX_EXTENSIONS OFF
+    XCODE_ATTRIBUTE_CLANG_LINK_OBJC_RUNTIME NO
+    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ""
+    XCODE_ATTRIBUTE_COMBINE_HIDPI_IMAGES YES
+    XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "$(PROJECT_DIR)/build/$(CONFIGURATION)"
+    XCODE_ATTRIBUTE_COPY_PHASE_STRIP NO
+    XCODE_ATTRIBUTE_DEPLOYMENT_LOCATION YES
+    XCODE_ATTRIBUTE_DSTROOT /
+    XCODE_ATTRIBUTE_GCC_DYNAMIC_NO_PIC NO
+    XCODE_ATTRIBUTE_GCC_VERSION com.apple.compilers.llvm.clang.1_0
+    XCODE_ATTRIBUTE_GENERATE_PKGINFO_FILE YES
+    XCODE_ATTRIBUTE_INFOPLIST_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Debug-Info-AU.plist"
+    XCODE_ATTRIBUTE_INFOPLIST_PREPROCESS NO
+    XCODE_ATTRIBUTE_INSTALL_PATH "$(HOME)/Library/Audio/Plug-Ins/Components/"
+    XCODE_ATTRIBUTE_LIBRARY_STYLE Bundle
+    XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.JUCE.DSPIntroductionTutorial
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
+    XCODE_ATTRIBUTE_USE_HEADERMAP NO
+    XCODE_ATTRIBUTE_WRAPPER_EXTENSION component
+    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Debug-Info-AU.plist"
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
+    BUNDLE TRUE
+    BUNDLE_EXTENSION component
+    XCODE_ATTRIBUTE_MACH_O_TYPE "mh_bundle"
+)
+
+target_link_libraries (AU PRIVATE
+    SHARED_CODE
+    "-framework AudioUnit"
+    "-framework Accelerate"
+    "-framework AudioToolbox"
+    "-framework Carbon"
+    "-framework Cocoa"
+    "-framework CoreAudio"
+    "-framework CoreAudioKit"
+    "-framework CoreMIDI"
+    "-framework DiscRecording"
+    "-framework IOKit"
+    "-framework QuartzCore"
+    "-framework WebKit"
+)
+
+add_custom_command (TARGET AU POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E remove_directory "$ENV{HOME}/Library/Audio/Plug-Ins/Components/DSPIntroductionTutorial.component"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/DSPIntroductionTutorial.component" "$ENV{HOME}/Library/Audio/Plug-Ins/Components/DSPIntroductionTutorial.component"
+    COMMENT "Copying \"DSPIntroductionTutorial.component\" to \"$ENV{HOME}/Library/Audio/Plug-Ins/Components/\""
+)
+
+target_include_directories (STANDALONE_PLUGIN PRIVATE
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_processors/format_types/VST3_SDK"
+    "../../JuceLibraryCode"
+    "/Users/int0thewind/Development/JUCE/modules"
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_plugin_client"
+)
+
+target_compile_definitions (STANDALONE_PLUGIN PRIVATE
     "_DEBUG=1"
     "DEBUG=1"
     "JUCER_XCODE_MAC_F6D2F4CF=1"
@@ -2606,18 +3096,18 @@ target_compile_definitions (APP PRIVATE
     "JucePlugin_Build_AUv3=0"
     "JucePlugin_Build_RTAS=0"
     "JucePlugin_Build_AAX=0"
-    "JucePlugin_Build_Standalone=0"
+    "JucePlugin_Build_Standalone=1"
     "JucePlugin_Build_Unity=0"
 )
 
-target_compile_options (APP PRIVATE
+target_compile_options (STANDALONE_PLUGIN PRIVATE
     -mmacosx-version-min=10.11
     -O0
     -stdlib=libc++
 )
 
-set_target_properties (APP PROPERTIES
-    OUTPUT_NAME "MPEIntroductionTutorial"
+set_target_properties (STANDALONE_PLUGIN PROPERTIES
+    OUTPUT_NAME "DSPIntroductionTutorial"
     CXX_STANDARD 14
     CXX_EXTENSIONS OFF
     XCODE_ATTRIBUTE_CLANG_LINK_OBJC_RUNTIME NO
@@ -2627,18 +3117,80 @@ set_target_properties (APP PROPERTIES
     XCODE_ATTRIBUTE_COPY_PHASE_STRIP NO
     XCODE_ATTRIBUTE_GCC_DYNAMIC_NO_PIC NO
     XCODE_ATTRIBUTE_GCC_VERSION com.apple.compilers.llvm.clang.1_0
-    XCODE_ATTRIBUTE_INFOPLIST_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Debug-Info-App.plist"
+    XCODE_ATTRIBUTE_INFOPLIST_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Debug-Info-Standalone_Plugin.plist"
     XCODE_ATTRIBUTE_INFOPLIST_PREPROCESS NO
-    XCODE_ATTRIBUTE_INSTALL_PATH "$(HOME)/Applications"
-    XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.JUCE.MPEIntroductionTutorial
-    XCODE_ATTRIBUTE_PRODUCT_NAME "MPEIntroductionTutorial"
+    XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.JUCE.DSPIntroductionTutorial
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
     XCODE_ATTRIBUTE_USE_HEADERMAP NO
-    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Debug-Info-App.plist"
-    XCODE_ATTRIBUTE_PRODUCT_NAME "MPEIntroductionTutorial"
+    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Debug-Info-Standalone_Plugin.plist"
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
     MACOSX_BUNDLE TRUE
 )
 
-target_link_libraries (APP PRIVATE
+target_link_libraries (STANDALONE_PLUGIN PRIVATE
+    SHARED_CODE
+    "-framework Accelerate"
+    "-framework AudioToolbox"
+    "-framework Carbon"
+    "-framework Cocoa"
+    "-framework CoreAudio"
+    "-framework CoreAudioKit"
+    "-framework CoreMIDI"
+    "-framework DiscRecording"
+    "-framework IOKit"
+    "-framework QuartzCore"
+    "-framework WebKit"
+)
+
+target_include_directories (SHARED_CODE PRIVATE
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_processors/format_types/VST3_SDK"
+    "../../JuceLibraryCode"
+    "/Users/int0thewind/Development/JUCE/modules"
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_plugin_client"
+)
+
+target_compile_definitions (SHARED_CODE PRIVATE
+    "_DEBUG=1"
+    "DEBUG=1"
+    "JUCER_XCODE_MAC_F6D2F4CF=1"
+    "JUCE_APP_VERSION=1.0.0"
+    "JUCE_APP_VERSION_HEX=0x10000"
+    "JucePlugin_Build_VST=0"
+    "JucePlugin_Build_VST3=1"
+    "JucePlugin_Build_AU=1"
+    "JucePlugin_Build_AUv3=0"
+    "JucePlugin_Build_RTAS=0"
+    "JucePlugin_Build_AAX=0"
+    "JucePlugin_Build_Standalone=1"
+    "JucePlugin_Build_Unity=0"
+    "JUCE_SHARED_CODE=1"
+)
+
+target_compile_options (SHARED_CODE PRIVATE
+    -mmacosx-version-min=10.11
+    -O0
+    -stdlib=libc++
+)
+
+set_target_properties (SHARED_CODE PROPERTIES
+    OUTPUT_NAME "DSPIntroductionTutorial"
+    CXX_STANDARD 14
+    CXX_EXTENSIONS OFF
+    XCODE_ATTRIBUTE_CLANG_LINK_OBJC_RUNTIME NO
+    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ""
+    XCODE_ATTRIBUTE_COMBINE_HIDPI_IMAGES YES
+    XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "$(PROJECT_DIR)/build/$(CONFIGURATION)"
+    XCODE_ATTRIBUTE_COPY_PHASE_STRIP NO
+    XCODE_ATTRIBUTE_GCC_DYNAMIC_NO_PIC NO
+    XCODE_ATTRIBUTE_GCC_VERSION com.apple.compilers.llvm.clang.1_0
+    XCODE_ATTRIBUTE_INSTALL_PATH "@executable_path/../Frameworks"
+    XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.JUCE.DSPIntroductionTutorial
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
+    XCODE_ATTRIBUTE_SKIP_INSTALL YES
+    XCODE_ATTRIBUTE_USE_HEADERMAP NO
+)
+
+target_link_libraries (SHARED_CODE PRIVATE
     "-framework Accelerate"
     "-framework AudioToolbox"
     "-framework Carbon"
@@ -2665,12 +3217,203 @@ if (CMAKE_BUILD_TYPE STREQUAL Release)
 
 execute_process (COMMAND uname -m OUTPUT_VARIABLE JUCE_ARCH_LABEL OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-target_include_directories (APP PRIVATE
+target_include_directories (VST3 PRIVATE
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_processors/format_types/VST3_SDK"
     "../../JuceLibraryCode"
     "/Users/int0thewind/Development/JUCE/modules"
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_plugin_client"
 )
 
-target_compile_definitions (APP PRIVATE
+target_compile_definitions (VST3 PRIVATE
+    "_NDEBUG=1"
+    "NDEBUG=1"
+    "JUCER_XCODE_MAC_F6D2F4CF=1"
+    "JUCE_APP_VERSION=1.0.0"
+    "JUCE_APP_VERSION_HEX=0x10000"
+    "JucePlugin_Build_VST=0"
+    "JucePlugin_Build_VST3=1"
+    "JucePlugin_Build_AU=0"
+    "JucePlugin_Build_AUv3=0"
+    "JucePlugin_Build_RTAS=0"
+    "JucePlugin_Build_AAX=0"
+    "JucePlugin_Build_Standalone=0"
+    "JucePlugin_Build_Unity=0"
+)
+
+target_compile_options (VST3 PRIVATE
+    -mmacosx-version-min=10.11
+    -O3
+    -flto
+    -stdlib=libc++
+)
+
+set_target_properties (VST3 PROPERTIES
+    OUTPUT_NAME "DSPIntroductionTutorial"
+    CXX_STANDARD 14
+    CXX_EXTENSIONS OFF
+    XCODE_ATTRIBUTE_CLANG_LINK_OBJC_RUNTIME NO
+    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ""
+    XCODE_ATTRIBUTE_COMBINE_HIDPI_IMAGES YES
+    XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "$(PROJECT_DIR)/build/$(CONFIGURATION)"
+    XCODE_ATTRIBUTE_DEAD_CODE_STRIPPING YES
+    XCODE_ATTRIBUTE_DEPLOYMENT_LOCATION YES
+    XCODE_ATTRIBUTE_DSTROOT /
+    XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS NO
+    XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN YES
+    XCODE_ATTRIBUTE_GCC_VERSION com.apple.compilers.llvm.clang.1_0
+    XCODE_ATTRIBUTE_GENERATE_PKGINFO_FILE YES
+    XCODE_ATTRIBUTE_INFOPLIST_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Release-Info-VST3.plist"
+    XCODE_ATTRIBUTE_INFOPLIST_PREPROCESS NO
+    XCODE_ATTRIBUTE_INSTALL_PATH "$(HOME)/Library/Audio/Plug-Ins/VST3/"
+    XCODE_ATTRIBUTE_LIBRARY_STYLE Bundle
+    XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.JUCE.DSPIntroductionTutorial
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
+    XCODE_ATTRIBUTE_USE_HEADERMAP NO
+    XCODE_ATTRIBUTE_WRAPPER_EXTENSION vst3
+    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Release-Info-VST3.plist"
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
+    BUNDLE TRUE
+    BUNDLE_EXTENSION vst3
+    XCODE_ATTRIBUTE_MACH_O_TYPE "mh_bundle"
+)
+
+target_link_libraries (VST3 PRIVATE
+    SHARED_CODE
+    "-framework Accelerate"
+    "-framework AudioToolbox"
+    "-framework Carbon"
+    "-framework Cocoa"
+    "-framework CoreAudio"
+    "-framework CoreAudioKit"
+    "-framework CoreMIDI"
+    "-framework DiscRecording"
+    "-framework IOKit"
+    "-framework QuartzCore"
+    "-framework WebKit"
+)
+
+add_custom_command (TARGET VST3 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E remove_directory "$ENV{HOME}/Library/Audio/Plug-Ins/VST3/DSPIntroductionTutorial.vst3"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/DSPIntroductionTutorial.vst3" "$ENV{HOME}/Library/Audio/Plug-Ins/VST3/DSPIntroductionTutorial.vst3"
+    COMMENT "Copying \"DSPIntroductionTutorial.vst3\" to \"$ENV{HOME}/Library/Audio/Plug-Ins/VST3/\""
+)
+
+target_include_directories (AU PRIVATE
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_processors/format_types/VST3_SDK"
+    "../../JuceLibraryCode"
+    "/Users/int0thewind/Development/JUCE/modules"
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_plugin_client"
+)
+
+target_compile_definitions (AU PRIVATE
+    "_NDEBUG=1"
+    "NDEBUG=1"
+    "JUCER_XCODE_MAC_F6D2F4CF=1"
+    "JUCE_APP_VERSION=1.0.0"
+    "JUCE_APP_VERSION_HEX=0x10000"
+    "JucePlugin_Build_VST=0"
+    "JucePlugin_Build_VST3=0"
+    "JucePlugin_Build_AU=1"
+    "JucePlugin_Build_AUv3=0"
+    "JucePlugin_Build_RTAS=0"
+    "JucePlugin_Build_AAX=0"
+    "JucePlugin_Build_Standalone=0"
+    "JucePlugin_Build_Unity=0"
+)
+
+target_compile_options (AU PRIVATE
+    -mmacosx-version-min=10.11
+    -O3
+    -flto
+    -stdlib=libc++
+)
+
+if (RC_COMPILER)
+    set (AU_REZ_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../JuceLibraryCode/include_juce_audio_plugin_client_AU.r"
+    )
+    set (AU_REZ_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/DSPIntroductionTutorial.rsrc")
+    target_sources (AU PRIVATE
+        ${AU_REZ_SOURCES}
+        ${AU_REZ_OUTPUT}
+    )
+    execute_process (COMMAND
+        ${RC_COMPILER}
+        -d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I "$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase" -I "$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AudioUnit.framework/Headers"
+        -isysroot "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+        -I "/Users/int0thewind/Development/JUCE/modules/juce_audio_processors/format_types/VST3_SDK"
+        -I "${PROJECT_SOURCE_DIR}/../../JuceLibraryCode"
+        -I "/Users/int0thewind/Development/JUCE/modules"
+        -I "/Users/int0thewind/Development/JUCE/modules/juce_audio_plugin_client"
+        ${AU_REZ_SOURCES}
+        -o ${AU_REZ_OUTPUT}
+    )
+    set_source_files_properties (${AU_REZ_OUTPUT} PROPERTIES
+        GENERATED TRUE
+        MACOSX_PACKAGE_LOCATION Resources
+    )
+endif (RC_COMPILER)
+
+set_target_properties (AU PROPERTIES
+    OUTPUT_NAME "DSPIntroductionTutorial"
+    CXX_STANDARD 14
+    CXX_EXTENSIONS OFF
+    XCODE_ATTRIBUTE_CLANG_LINK_OBJC_RUNTIME NO
+    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ""
+    XCODE_ATTRIBUTE_COMBINE_HIDPI_IMAGES YES
+    XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "$(PROJECT_DIR)/build/$(CONFIGURATION)"
+    XCODE_ATTRIBUTE_DEAD_CODE_STRIPPING YES
+    XCODE_ATTRIBUTE_DEPLOYMENT_LOCATION YES
+    XCODE_ATTRIBUTE_DSTROOT /
+    XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS NO
+    XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN YES
+    XCODE_ATTRIBUTE_GCC_VERSION com.apple.compilers.llvm.clang.1_0
+    XCODE_ATTRIBUTE_GENERATE_PKGINFO_FILE YES
+    XCODE_ATTRIBUTE_INFOPLIST_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Release-Info-AU.plist"
+    XCODE_ATTRIBUTE_INFOPLIST_PREPROCESS NO
+    XCODE_ATTRIBUTE_INSTALL_PATH "$(HOME)/Library/Audio/Plug-Ins/Components/"
+    XCODE_ATTRIBUTE_LIBRARY_STYLE Bundle
+    XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.JUCE.DSPIntroductionTutorial
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
+    XCODE_ATTRIBUTE_USE_HEADERMAP NO
+    XCODE_ATTRIBUTE_WRAPPER_EXTENSION component
+    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Release-Info-AU.plist"
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
+    BUNDLE TRUE
+    BUNDLE_EXTENSION component
+    XCODE_ATTRIBUTE_MACH_O_TYPE "mh_bundle"
+)
+
+target_link_libraries (AU PRIVATE
+    SHARED_CODE
+    "-framework AudioUnit"
+    "-framework Accelerate"
+    "-framework AudioToolbox"
+    "-framework Carbon"
+    "-framework Cocoa"
+    "-framework CoreAudio"
+    "-framework CoreAudioKit"
+    "-framework CoreMIDI"
+    "-framework DiscRecording"
+    "-framework IOKit"
+    "-framework QuartzCore"
+    "-framework WebKit"
+)
+
+add_custom_command (TARGET AU POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E remove_directory "$ENV{HOME}/Library/Audio/Plug-Ins/Components/DSPIntroductionTutorial.component"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/DSPIntroductionTutorial.component" "$ENV{HOME}/Library/Audio/Plug-Ins/Components/DSPIntroductionTutorial.component"
+    COMMENT "Copying \"DSPIntroductionTutorial.component\" to \"$ENV{HOME}/Library/Audio/Plug-Ins/Components/\""
+)
+
+target_include_directories (STANDALONE_PLUGIN PRIVATE
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_processors/format_types/VST3_SDK"
+    "../../JuceLibraryCode"
+    "/Users/int0thewind/Development/JUCE/modules"
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_plugin_client"
+)
+
+target_compile_definitions (STANDALONE_PLUGIN PRIVATE
     "_NDEBUG=1"
     "NDEBUG=1"
     "JUCER_XCODE_MAC_F6D2F4CF=1"
@@ -2682,19 +3425,19 @@ target_compile_definitions (APP PRIVATE
     "JucePlugin_Build_AUv3=0"
     "JucePlugin_Build_RTAS=0"
     "JucePlugin_Build_AAX=0"
-    "JucePlugin_Build_Standalone=0"
+    "JucePlugin_Build_Standalone=1"
     "JucePlugin_Build_Unity=0"
 )
 
-target_compile_options (APP PRIVATE
+target_compile_options (STANDALONE_PLUGIN PRIVATE
     -mmacosx-version-min=10.11
     -O3
     -flto
     -stdlib=libc++
 )
 
-set_target_properties (APP PROPERTIES
-    OUTPUT_NAME "MPEIntroductionTutorial"
+set_target_properties (STANDALONE_PLUGIN PROPERTIES
+    OUTPUT_NAME "DSPIntroductionTutorial"
     CXX_STANDARD 14
     CXX_EXTENSIONS OFF
     XCODE_ATTRIBUTE_CLANG_LINK_OBJC_RUNTIME NO
@@ -2705,18 +3448,82 @@ set_target_properties (APP PROPERTIES
     XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS NO
     XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN YES
     XCODE_ATTRIBUTE_GCC_VERSION com.apple.compilers.llvm.clang.1_0
-    XCODE_ATTRIBUTE_INFOPLIST_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Release-Info-App.plist"
+    XCODE_ATTRIBUTE_INFOPLIST_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Release-Info-Standalone_Plugin.plist"
     XCODE_ATTRIBUTE_INFOPLIST_PREPROCESS NO
-    XCODE_ATTRIBUTE_INSTALL_PATH "$(HOME)/Applications"
-    XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.JUCE.MPEIntroductionTutorial
-    XCODE_ATTRIBUTE_PRODUCT_NAME "MPEIntroductionTutorial"
+    XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.JUCE.DSPIntroductionTutorial
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
     XCODE_ATTRIBUTE_USE_HEADERMAP NO
-    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Release-Info-App.plist"
-    XCODE_ATTRIBUTE_PRODUCT_NAME "MPEIntroductionTutorial"
+    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Release-Info-Standalone_Plugin.plist"
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
     MACOSX_BUNDLE TRUE
 )
 
-target_link_libraries (APP PRIVATE
+target_link_libraries (STANDALONE_PLUGIN PRIVATE
+    SHARED_CODE
+    "-framework Accelerate"
+    "-framework AudioToolbox"
+    "-framework Carbon"
+    "-framework Cocoa"
+    "-framework CoreAudio"
+    "-framework CoreAudioKit"
+    "-framework CoreMIDI"
+    "-framework DiscRecording"
+    "-framework IOKit"
+    "-framework QuartzCore"
+    "-framework WebKit"
+)
+
+target_include_directories (SHARED_CODE PRIVATE
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_processors/format_types/VST3_SDK"
+    "../../JuceLibraryCode"
+    "/Users/int0thewind/Development/JUCE/modules"
+    "/Users/int0thewind/Development/JUCE/modules/juce_audio_plugin_client"
+)
+
+target_compile_definitions (SHARED_CODE PRIVATE
+    "_NDEBUG=1"
+    "NDEBUG=1"
+    "JUCER_XCODE_MAC_F6D2F4CF=1"
+    "JUCE_APP_VERSION=1.0.0"
+    "JUCE_APP_VERSION_HEX=0x10000"
+    "JucePlugin_Build_VST=0"
+    "JucePlugin_Build_VST3=1"
+    "JucePlugin_Build_AU=1"
+    "JucePlugin_Build_AUv3=0"
+    "JucePlugin_Build_RTAS=0"
+    "JucePlugin_Build_AAX=0"
+    "JucePlugin_Build_Standalone=1"
+    "JucePlugin_Build_Unity=0"
+    "JUCE_SHARED_CODE=1"
+)
+
+target_compile_options (SHARED_CODE PRIVATE
+    -mmacosx-version-min=10.11
+    -O3
+    -flto
+    -stdlib=libc++
+)
+
+set_target_properties (SHARED_CODE PROPERTIES
+    OUTPUT_NAME "DSPIntroductionTutorial"
+    CXX_STANDARD 14
+    CXX_EXTENSIONS OFF
+    XCODE_ATTRIBUTE_CLANG_LINK_OBJC_RUNTIME NO
+    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ""
+    XCODE_ATTRIBUTE_COMBINE_HIDPI_IMAGES YES
+    XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "$(PROJECT_DIR)/build/$(CONFIGURATION)"
+    XCODE_ATTRIBUTE_DEAD_CODE_STRIPPING YES
+    XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS NO
+    XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN YES
+    XCODE_ATTRIBUTE_GCC_VERSION com.apple.compilers.llvm.clang.1_0
+    XCODE_ATTRIBUTE_INSTALL_PATH "@executable_path/../Frameworks"
+    XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.JUCE.DSPIntroductionTutorial
+    XCODE_ATTRIBUTE_PRODUCT_NAME "DSPIntroductionTutorial"
+    XCODE_ATTRIBUTE_SKIP_INSTALL YES
+    XCODE_ATTRIBUTE_USE_HEADERMAP NO
+)
+
+target_link_libraries (SHARED_CODE PRIVATE
     "-framework Accelerate"
     "-framework AudioToolbox"
     "-framework Carbon"

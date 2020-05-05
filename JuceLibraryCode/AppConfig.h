@@ -50,17 +50,19 @@
 #define JUCE_PROJUCER_VERSION 0x50407
 
 //==============================================================================
-#define JUCE_MODULE_AVAILABLE_juce_audio_basics          1
-#define JUCE_MODULE_AVAILABLE_juce_audio_devices         1
-#define JUCE_MODULE_AVAILABLE_juce_audio_formats         1
-#define JUCE_MODULE_AVAILABLE_juce_audio_processors      1
-#define JUCE_MODULE_AVAILABLE_juce_audio_utils           1
-#define JUCE_MODULE_AVAILABLE_juce_core                  1
-#define JUCE_MODULE_AVAILABLE_juce_data_structures       1
-#define JUCE_MODULE_AVAILABLE_juce_events                1
-#define JUCE_MODULE_AVAILABLE_juce_graphics              1
-#define JUCE_MODULE_AVAILABLE_juce_gui_basics            1
-#define JUCE_MODULE_AVAILABLE_juce_gui_extra             1
+#define JUCE_MODULE_AVAILABLE_juce_audio_basics             1
+#define JUCE_MODULE_AVAILABLE_juce_audio_devices            1
+#define JUCE_MODULE_AVAILABLE_juce_audio_formats            1
+#define JUCE_MODULE_AVAILABLE_juce_audio_plugin_client      1
+#define JUCE_MODULE_AVAILABLE_juce_audio_processors         1
+#define JUCE_MODULE_AVAILABLE_juce_audio_utils              1
+#define JUCE_MODULE_AVAILABLE_juce_core                     1
+#define JUCE_MODULE_AVAILABLE_juce_data_structures          1
+#define JUCE_MODULE_AVAILABLE_juce_dsp                      1
+#define JUCE_MODULE_AVAILABLE_juce_events                   1
+#define JUCE_MODULE_AVAILABLE_juce_graphics                 1
+#define JUCE_MODULE_AVAILABLE_juce_gui_basics               1
+#define JUCE_MODULE_AVAILABLE_juce_gui_extra                1
 
 #define JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED 1
 
@@ -132,6 +134,33 @@
 
 #ifndef    JUCE_USE_WINDOWS_MEDIA_FORMAT
  //#define JUCE_USE_WINDOWS_MEDIA_FORMAT 1
+#endif
+
+//==============================================================================
+// juce_audio_plugin_client flags:
+
+#ifndef    JUCE_VST3_CAN_REPLACE_VST2
+ #define   JUCE_VST3_CAN_REPLACE_VST2 0
+#endif
+
+#ifndef    JUCE_FORCE_USE_LEGACY_PARAM_IDS
+ //#define JUCE_FORCE_USE_LEGACY_PARAM_IDS 0
+#endif
+
+#ifndef    JUCE_FORCE_LEGACY_PARAMETER_AUTOMATION_TYPE
+ //#define JUCE_FORCE_LEGACY_PARAMETER_AUTOMATION_TYPE 0
+#endif
+
+#ifndef    JUCE_USE_STUDIO_ONE_COMPATIBLE_PARAMETERS
+ //#define JUCE_USE_STUDIO_ONE_COMPATIBLE_PARAMETERS 1
+#endif
+
+#ifndef    JUCE_AU_WRAPPERS_SAVE_PROGRAM_STATES
+ //#define JUCE_AU_WRAPPERS_SAVE_PROGRAM_STATES 0
+#endif
+
+#ifndef    JUCE_STANDALONE_FILTER_WINDOW_USE_KIOSK_MODE
+ //#define JUCE_STANDALONE_FILTER_WINDOW_USE_KIOSK_MODE 0
 #endif
 
 //==============================================================================
@@ -208,6 +237,29 @@
 #endif
 
 //==============================================================================
+// juce_dsp flags:
+
+#ifndef    JUCE_ASSERTION_FIRFILTER
+ //#define JUCE_ASSERTION_FIRFILTER 1
+#endif
+
+#ifndef    JUCE_DSP_USE_INTEL_MKL
+ //#define JUCE_DSP_USE_INTEL_MKL 0
+#endif
+
+#ifndef    JUCE_DSP_USE_SHARED_FFTW
+ //#define JUCE_DSP_USE_SHARED_FFTW 0
+#endif
+
+#ifndef    JUCE_DSP_USE_STATIC_FFTW
+ //#define JUCE_DSP_USE_STATIC_FFTW 0
+#endif
+
+#ifndef    JUCE_DSP_ENABLE_SNAP_TO_ZERO
+ //#define JUCE_DSP_ENABLE_SNAP_TO_ZERO 1
+#endif
+
+//==============================================================================
 // juce_events flags:
 
 #ifndef    JUCE_EXECUTE_APP_SUSPEND_ON_BACKGROUND_TASK
@@ -272,10 +324,161 @@
 #endif
 
 //==============================================================================
+// Audio plugin settings..
+
+#ifndef  JucePlugin_Build_VST
+ #define JucePlugin_Build_VST              0
+#endif
+#ifndef  JucePlugin_Build_VST3
+ #define JucePlugin_Build_VST3             1
+#endif
+#ifndef  JucePlugin_Build_AU
+ #define JucePlugin_Build_AU               1
+#endif
+#ifndef  JucePlugin_Build_AUv3
+ #define JucePlugin_Build_AUv3             0
+#endif
+#ifndef  JucePlugin_Build_RTAS
+ #define JucePlugin_Build_RTAS             0
+#endif
+#ifndef  JucePlugin_Build_AAX
+ #define JucePlugin_Build_AAX              0
+#endif
+#ifndef  JucePlugin_Build_Standalone
+ #define JucePlugin_Build_Standalone       1
+#endif
+#ifndef  JucePlugin_Build_Unity
+ #define JucePlugin_Build_Unity            0
+#endif
+#ifndef  JucePlugin_Enable_IAA
+ #define JucePlugin_Enable_IAA             0
+#endif
+#ifndef  JucePlugin_Name
+ #define JucePlugin_Name                   "DSPIntroductionTutorial"
+#endif
+#ifndef  JucePlugin_Desc
+ #define JucePlugin_Desc                   "DSPIntroductionTutorial"
+#endif
+#ifndef  JucePlugin_Manufacturer
+ #define JucePlugin_Manufacturer           "JUCE"
+#endif
+#ifndef  JucePlugin_ManufacturerWebsite
+ #define JucePlugin_ManufacturerWebsite    "http://juce.com"
+#endif
+#ifndef  JucePlugin_ManufacturerEmail
+ #define JucePlugin_ManufacturerEmail      ""
+#endif
+#ifndef  JucePlugin_ManufacturerCode
+ #define JucePlugin_ManufacturerCode       0x4d616e75 // 'Manu'
+#endif
+#ifndef  JucePlugin_PluginCode
+ #define JucePlugin_PluginCode             0x47717277 // 'Gqrw'
+#endif
+#ifndef  JucePlugin_IsSynth
+ #define JucePlugin_IsSynth                0
+#endif
+#ifndef  JucePlugin_WantsMidiInput
+ #define JucePlugin_WantsMidiInput         0
+#endif
+#ifndef  JucePlugin_ProducesMidiOutput
+ #define JucePlugin_ProducesMidiOutput     0
+#endif
+#ifndef  JucePlugin_IsMidiEffect
+ #define JucePlugin_IsMidiEffect           0
+#endif
+#ifndef  JucePlugin_EditorRequiresKeyboardFocus
+ #define JucePlugin_EditorRequiresKeyboardFocus  0
+#endif
+#ifndef  JucePlugin_Version
+ #define JucePlugin_Version                1.0.0
+#endif
+#ifndef  JucePlugin_VersionCode
+ #define JucePlugin_VersionCode            0x10000
+#endif
+#ifndef  JucePlugin_VersionString
+ #define JucePlugin_VersionString          "1.0.0"
+#endif
+#ifndef  JucePlugin_VSTUniqueID
+ #define JucePlugin_VSTUniqueID            JucePlugin_PluginCode
+#endif
+#ifndef  JucePlugin_VSTCategory
+ #define JucePlugin_VSTCategory            kPlugCategEffect
+#endif
+#ifndef  JucePlugin_Vst3Category
+ #define JucePlugin_Vst3Category           "Fx"
+#endif
+#ifndef  JucePlugin_AUMainType
+ #define JucePlugin_AUMainType             'aufx'
+#endif
+#ifndef  JucePlugin_AUSubType
+ #define JucePlugin_AUSubType              JucePlugin_PluginCode
+#endif
+#ifndef  JucePlugin_AUExportPrefix
+ #define JucePlugin_AUExportPrefix         DSPIntroductionTutorialAU
+#endif
+#ifndef  JucePlugin_AUExportPrefixQuoted
+ #define JucePlugin_AUExportPrefixQuoted   "DSPIntroductionTutorialAU"
+#endif
+#ifndef  JucePlugin_AUManufacturerCode
+ #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
+#endif
+#ifndef  JucePlugin_CFBundleIdentifier
+ #define JucePlugin_CFBundleIdentifier     com.JUCE.DSPIntroductionTutorial
+#endif
+#ifndef  JucePlugin_RTASCategory
+ #define JucePlugin_RTASCategory           0
+#endif
+#ifndef  JucePlugin_RTASManufacturerCode
+ #define JucePlugin_RTASManufacturerCode   JucePlugin_ManufacturerCode
+#endif
+#ifndef  JucePlugin_RTASProductId
+ #define JucePlugin_RTASProductId          JucePlugin_PluginCode
+#endif
+#ifndef  JucePlugin_RTASDisableBypass
+ #define JucePlugin_RTASDisableBypass      0
+#endif
+#ifndef  JucePlugin_RTASDisableMultiMono
+ #define JucePlugin_RTASDisableMultiMono   0
+#endif
+#ifndef  JucePlugin_AAXIdentifier
+ #define JucePlugin_AAXIdentifier          com.JUCE.DSPIntroductionTutorial
+#endif
+#ifndef  JucePlugin_AAXManufacturerCode
+ #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
+#endif
+#ifndef  JucePlugin_AAXProductId
+ #define JucePlugin_AAXProductId           JucePlugin_PluginCode
+#endif
+#ifndef  JucePlugin_AAXCategory
+ #define JucePlugin_AAXCategory            0
+#endif
+#ifndef  JucePlugin_AAXDisableBypass
+ #define JucePlugin_AAXDisableBypass       0
+#endif
+#ifndef  JucePlugin_AAXDisableMultiMono
+ #define JucePlugin_AAXDisableMultiMono    0
+#endif
+#ifndef  JucePlugin_IAAType
+ #define JucePlugin_IAAType                0x61757278 // 'aurx'
+#endif
+#ifndef  JucePlugin_IAASubType
+ #define JucePlugin_IAASubType             JucePlugin_PluginCode
+#endif
+#ifndef  JucePlugin_IAAName
+ #define JucePlugin_IAAName                "JUCE: DSPIntroductionTutorial"
+#endif
+#ifndef  JucePlugin_VSTNumMidiInputs
+ #define JucePlugin_VSTNumMidiInputs       16
+#endif
+#ifndef  JucePlugin_VSTNumMidiOutputs
+ #define JucePlugin_VSTNumMidiOutputs      16
+#endif
+
+//==============================================================================
 #ifndef    JUCE_STANDALONE_APPLICATION
  #if defined(JucePlugin_Name) && defined(JucePlugin_Build_Standalone)
   #define  JUCE_STANDALONE_APPLICATION JucePlugin_Build_Standalone
  #else
-  #define  JUCE_STANDALONE_APPLICATION 1
+  #define  JUCE_STANDALONE_APPLICATION 0
  #endif
 #endif

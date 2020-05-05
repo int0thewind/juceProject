@@ -4,15 +4,15 @@
 <plist>
   <dict>
     <key>CFBundleExecutable</key>
-    <string>MPEIntroductionTutorial</string>
+    <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIconFile</key>
-    <string/>
+    <string></string>
     <key>CFBundleIdentifier</key>
-    <string>com.JUCE.MPEIntroductionTutorial</string>
+    <string>com.JUCE.DSPIntroductionTutorial</string>
     <key>CFBundleName</key>
-    <string>MPEIntroductionTutorial</string>
+    <string>DSPIntroductionTutorial</string>
     <key>CFBundleDisplayName</key>
-    <string>MPEIntroductionTutorial</string>
+    <string>DSPIntroductionTutorial</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleSignature</key>
@@ -22,7 +22,7 @@
     <key>CFBundleVersion</key>
     <string>1.0.0</string>
     <key>NSHumanReadableCopyright</key>
-    <string/>
+    <string></string>
     <key>NSHighResolutionCapable</key>
     <true/>
   </dict>
