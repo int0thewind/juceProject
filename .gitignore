@@ -1,4 +1,6 @@
-/Builds
+/Builds/CLion/.idea
+/Builds/CLion/cmake-build-debug
+/Builds/MacOSX/build
 
 # C++ ignores
 # Prerequisites
