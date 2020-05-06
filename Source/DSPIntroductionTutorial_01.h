@@ -53,7 +53,7 @@ class CustomOscillator
 {
 public:
     //==============================================================================
-    CustomOscillator() {}
+    CustomOscillator() = default;
 
     //==============================================================================
     void setFrequency (Type newValue, bool force = false)
@@ -238,7 +238,7 @@ public:
 private:
     //==============================================================================
     AbstractFifo abstractFifo { numBuffers };
-    std::array<std::array<SampleType, bufferSize>, numBuffers> buffers;
+    std::array<std::array<SampleType, bufferSize>, numBuffers> buffers {};
 };
 
 //==============================================================================
@@ -247,7 +247,7 @@ class ScopeDataCollector
 {
 public:
     //==============================================================================
-    ScopeDataCollector (AudioBufferQueue<SampleType>& queueToUse)
+    explicit ScopeDataCollector (AudioBufferQueue<SampleType>& queueToUse)
         : audioBufferQueue (queueToUse)
     {}
 
@@ -294,7 +294,7 @@ private:
     //==============================================================================
     AudioBufferQueue<SampleType>& audioBufferQueue;
     std::array<SampleType, AudioBufferQueue<SampleType>::bufferSize> buffer;
-    size_t numCollected;
+    size_t numCollected{};
     SampleType prevSample = SampleType (100);
 
     static constexpr auto triggerLevel = SampleType (0.05);
@@ -311,7 +311,7 @@ public:
     using Queue = AudioBufferQueue<SampleType>;
 
     //==============================================================================
-    ScopeComponent (Queue& queueToUse)
+    explicit ScopeComponent (Queue& queueToUse)
         : audioBufferQueue (queueToUse)
     {
         sampleData.fill (SampleType (0));
@@ -423,11 +423,9 @@ public:
     {
         // This is the place where you check if the layout is supported.
         // In this template code we only support mono or stereo.
-        if (layouts.getMainOutputChannelSet() != AudioChannelSet::mono()
-         && layouts.getMainOutputChannelSet() != AudioChannelSet::stereo())
-            return false;
+        return !(layouts.getMainOutputChannelSet() != AudioChannelSet::mono()
+                 && layouts.getMainOutputChannelSet() != AudioChannelSet::stereo());
 
-        return true;
     }
 
     void processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages) override
@@ -480,7 +478,7 @@ private:
     class DSPTutorialAudioProcessorEditor  : public AudioProcessorEditor
     {
     public:
-        DSPTutorialAudioProcessorEditor (DSPTutorialAudioProcessor& p)
+        explicit DSPTutorialAudioProcessorEditor (DSPTutorialAudioProcessor& p)
             : AudioProcessorEditor (&p),
               dspProcessor (p),
               scopeComponent (dspProcessor.getAudioBufferQueue())
